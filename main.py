@@ -1,6 +1,7 @@
 import csv
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
+import datetime as dt
 
 trainData = pd.read_csv('train.csv')
 testData = pd.read_csv('test.csv')
@@ -11,10 +12,23 @@ testDF = pd.DataFrame(testData)
 trainDataLabels = list(trainDF)
 testDataLabels = list(testDF)
 
-X = trainDF.drop([trainDataLabels[1]], axis=1)
+#trainDF[trainDataLabels[0]] = pd.to_datetime([trainDF[trainDataLabels[0]]])
+#trainDF[trainDataLabels[0]] = dt.datetime.strptime(trainDF[trainDataLabels[0]], "%m/%d/%Y")
+trainDF[trainDataLabels[0]] = trainDF[trainDataLabels[0]].apply(lambda x: dt.datetime.strptime(x, '%Y-%m-%d %H:%M:%S'))
+trainDF[trainDataLabels[0]] = trainDF[trainDataLabels[0]].map(dt.datetime.toordinal)
+print(trainDF[trainDataLabels[0]].iloc[[2]])
+
+for i in range(2,6):
+    print (i)
+    temp = pd.get_dummies(trainDF[trainDataLabels[i]])
+    trainDF[trainDataLabels[i]] = temp
+
+
+X = trainDF.drop([trainDataLabels[1], trainDataLabels[6]], axis=1)
 Y = trainDF[trainDataLabels[1]]
 
-print(pd.get_dummies(trainDF[trainDataLabels[6]]))
+
+
 
 logReg = LogisticRegression()
 logReg.fit(X, Y)
