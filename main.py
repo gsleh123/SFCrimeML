@@ -1,4 +1,17 @@
 import csv
+import pandas as pd
+
+#testDataLabels = ['Dates', 'DayOfWeek', 'PdDistrict', 'Address', 'X	Y
+trainData = pd.read_csv('train.csv')
+testData = pd.read_csv('test.csv')
+
+trainDF = pd.DataFrame(trainData)
+testDF = pd.DataFrame(testData)
+
+trainDataLabels = list(trainDF)
+testDataLabels = list(testDF)
+
+print(trainData[trainDataLabels[0]])
 
 with open('submission.csv', 'w') as csvfile:
     resultWriter = csv.writer(csvfile)
