@@ -1,7 +1,7 @@
 import csv
 import pandas as pd
+from sklearn.linear_model import LogisticRegression
 
-#testDataLabels = ['Dates', 'DayOfWeek', 'PdDistrict', 'Address', 'X	Y
 trainData = pd.read_csv('train.csv')
 testData = pd.read_csv('test.csv')
 
@@ -11,7 +11,13 @@ testDF = pd.DataFrame(testData)
 trainDataLabels = list(trainDF)
 testDataLabels = list(testDF)
 
-print(trainData[trainDataLabels[0]])
+X = trainDF.drop([trainDataLabels[1]], axis=1)
+Y = trainDF[trainDataLabels[1]]
+
+print(pd.get_dummies(trainDF[trainDataLabels[6]]))
+
+logReg = LogisticRegression()
+logReg.fit(X, Y)
 
 with open('submission.csv', 'w') as csvfile:
     resultWriter = csv.writer(csvfile)
