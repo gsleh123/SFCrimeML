@@ -1,37 +1,7 @@
-## Welcome to GitHub Pages
+## Welcome to SFCrimeML
 
-You can use the [editor on GitHub](https://github.com/gsleh123/SFCrimeML/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+This project is based on a project found on [Kaggle](https://www.kaggle.com/c/sf-crime). The goal of this project is to categorize crimes in SF based on certain fields found [here](https://www.kaggle.com/c/sf-crime/data). We will be using a variety of ML algorithms such as logistic regression and gradient boosting. Our full project proposal can be found [here](https://docs.google.com/presentation/d/1gHHNm9W-lBiU_dxJtWkVJIJlVXD2OCxYvNTxZrpglJs/edit?usp=sharing). This website will be used for keeping track of our progress.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Blog Updates
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/gsleh123/SFCrimeML/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+*5/6/2018* - Working on using logistic regression to predict crime category. On the Kaggle competition, we scored a multiclass loss of 27.62709. This is just preliminary work with using ONLY logistic regression.
