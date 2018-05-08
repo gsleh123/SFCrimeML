@@ -4,7 +4,7 @@ import parse
 def logReg():
     X, Y, YDict, test_X = parse.mario()
 
-    logReg = LogisticRegression()
+    logReg = LogisticRegression(multi_class='multinomial', solver='lbfgs')
     logReg.fit(X, Y)
 
     categories = logReg.predict(test_X)

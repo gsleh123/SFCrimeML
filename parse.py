@@ -29,8 +29,8 @@ def mario():
 
        
     for j in range(2,4):
-        temp = pd.get_dummies(testDF[testDataLabels[j]])
-        testDF[testDataLabels[j]] = temp
+        testDF[testDataLabels[j]] = testDF[testDataLabels[j]].astype('category')
+        testDF[testDataLabels[j]] = testDF[testDataLabels[j]].cat.codes
 
     X = trainDF.drop([trainDataLabels[1], trainDataLabels[2], trainDataLabels[5], trainDataLabels[6]], axis=1)
     Y = trainDF[trainDataLabels[1]]

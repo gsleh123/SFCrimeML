@@ -4,7 +4,7 @@ import xgb_code
 
 #categories, YDict = lr.logReg()
 
-xgb_code.boost()
+categories, YDict = xgb_code.boost()
 
 with open('submission.csv', 'w') as csvfile:
     listofcategories = ['Id', 'ARSON', 'ASSAULT', 'BAD CHECKS', 'BRIBERY', 'BURGLARY', 'DISORDERLY CONDUCT',
