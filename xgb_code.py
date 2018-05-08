@@ -12,10 +12,10 @@ def boost():
     dtrain = xgb.DMatrix(trainNP_X, label=trainNP_Y)
     dtest = xgb.DMatrix(testNP_X)
 
-    evallist = [(dtest, 'eval'), (dtrain, 'train')]
+    #evallist = [(dtest, 'eval'), (dtrain, 'train')]
     num_round = 10
     param = {'max_depth':2, 'eta':1, 'silent':1, 'objective':'multi:softmax', 'num_class':len(YDict) }
-    booster = xgb.train(param, dtrain, num_round, evallist)
+    booster = xgb.train(param, dtrain, num_round)
 
     categories = booster.predict(dtest)
     print(categories)
