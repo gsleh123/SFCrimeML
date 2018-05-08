@@ -5,3 +5,5 @@ This project is based on a project found on [Kaggle](https://www.kaggle.com/c/sf
 ### Blog Updates
 
 *5/6/2018* - Working on using logistic regression to predict crime category. On the Kaggle competition, we scored a multiclass loss of 27.62709. This is just preliminary work with using ONLY logistic regression.
+
+*5/7/2018* - Working on using xgboost to predict crime category. On the Kaggle competition, we scored a multiclass loss of 28. We believe the worse score is due to overfitting. We will work on tweaking the parameters to improve our score.
