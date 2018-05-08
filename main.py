@@ -1,45 +1,10 @@
 import csv
-import pandas as pd
-from sklearn.linear_model import LogisticRegression
-import datetime as dt
+import logistic_regression as lr
+import xgb_code
 
-trainData = pd.read_csv('train.csv')
-testData = pd.read_csv('test.csv')
+#categories, YDict = lr.logReg()
 
-trainDF = pd.DataFrame(trainData)
-testDF = pd.DataFrame(testData)
-
-trainDataLabels = list(trainDF)
-testDataLabels = list(testDF)
-
-trainDF[trainDataLabels[0]] = trainDF[trainDataLabels[0]].apply(lambda x: dt.datetime.strptime(x, '%Y-%m-%d %H:%M:%S'))
-trainDF[trainDataLabels[0]] = trainDF[trainDataLabels[0]].map(dt.datetime.toordinal)
-
-testDF[testDataLabels[1]] = testDF[testDataLabels[1]].apply(lambda x: dt.datetime.strptime(x, '%Y-%m-%d %H:%M:%S'))
-testDF[testDataLabels[1]] = testDF[testDataLabels[1]].map(dt.datetime.toordinal)
-
-for i in range(2,6):
-    temp = pd.get_dummies(trainDF[trainDataLabels[i]])
-    trainDF[trainDataLabels[i]] = temp
-
-for j in range(2,4):
-    temp = pd.get_dummies(testDF[testDataLabels[j]])
-    testDF[testDataLabels[j]] = temp
-
-
-
-X = trainDF.drop([trainDataLabels[1], trainDataLabels[2], trainDataLabels[5], trainDataLabels[6]], axis=1)
-Y = trainDF[trainDataLabels[1]]
-
-test_X = testDF.drop([testDataLabels[0], testDataLabels[4]], axis=1)
-
-logReg = LogisticRegression()
-logReg.fit(X, Y)
-
-categories = logReg.predict(test_X)
-
-print(len(categories))
-
+xgb_code.boost()
 
 with open('submission.csv', 'w') as csvfile:
     listofcategories = ['Id', 'ARSON', 'ASSAULT', 'BAD CHECKS', 'BRIBERY', 'BURGLARY', 'DISORDERLY CONDUCT',
@@ -58,7 +23,7 @@ with open('submission.csv', 'w') as csvfile:
     for i in range(0, len(categories)):
         row = [0] * len(listofcategories)
         row[0] = i
-        row[categoryDict[categories[i]]] = 1
+        row[categoryDict[YDict[categories[i]]]] = 1
         resultWriter.writerow(row)
         
 		
