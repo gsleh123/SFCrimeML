@@ -13,16 +13,16 @@ def boost():
     dtest = xgb.DMatrix(testNP_X)
 
     #evallist = [(dtest, 'eval'), (dtrain, 'train')]
-    num_round = 999
+    num_round = 50
     param = {'max_depth':10, 'eta':0.3, 'silent':1, 'objective':'multi:softmax', 'num_class':len(YDict)}
-    #classifier = xgb.train(param, dtrain, num_round)
+    classifier = xgb.train(param, dtrain, num_round)
 
-    cv = xgb.cv(param
-                , dtrain
-                , num_boost_round = num_round
-                , nfold = 4
-                , early_stopping_rounds = 10)
-    print(cv)
+    #cv = xgb.cv(param
+    #            , dtrain
+    #            , num_boost_round = num_round
+    #            , nfold = 4
+    #            , early_stopping_rounds = 10)
+    #print(cv)
 
     categories = classifier.predict(dtest)
 
