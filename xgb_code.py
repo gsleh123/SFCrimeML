@@ -14,13 +14,28 @@ def boost():
 
     #evallist = [(dtest, 'eval'), (dtrain, 'train')]
     num_round = 50
-    params = {'max_depth':10, 'eta':0.3, 'silent':1, 'objective':'multi:softmax', 'num_class':len(YDict)}
-    #classifier = xgb.train(param, dtrain, num_round)
+    params = {'max_depth':20, 'min_child_weight':1, 'eta':0.1, 'silent':1, 'objective':'multi:softmax', 'num_class':len(YDict)}
+    classifier = xgb.train(params, dtrain, num_round)
+    # error 0.710194 max_dept = 12, min_child = 1
+    # error 0.6966112 max_depth = 20, min_child = 1
 
+    #cv(dtrain, params)
+    #cv = xgb.cv(param
+    #            , dtrain
+    #            , num_boost_round = num_round
+    #            , nfold = 4
+    #            , early_stopping_rounds = 10)
+    #print(cv)
+
+    categories = classifier.predict(dtest)
+
+    return categories, YDict
+
+def cv(dtrain, params, num_round = 50):
     gridsearch_params = [
         (max_depth, min_child_weight)
-        for max_depth in range(6,13,2)
-        for min_child_weight in range(1,8,2)
+        for max_depth in range(20,25)
+        for min_child_weight in range(1,3)
     ]
 
     min_merror = float("Inf")
@@ -53,14 +68,3 @@ def boost():
             best_params = (max_depth, min_child_weight)
 
     print("Best params: {}, {}, MAE: {}".format(best_params[0], best_params[1], min_merror))
-
-    #cv = xgb.cv(param
-    #            , dtrain
-    #            , num_boost_round = num_round
-    #            , nfold = 4
-    #            , early_stopping_rounds = 10)
-    #print(cv)
-
-    categories = classifier.predict(dtest)
-
-    return categories, YDict
