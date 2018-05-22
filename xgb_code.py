@@ -37,7 +37,7 @@ def boost():
 
     #cv(dtrain, params)
 
-    score = log_loss(test[goal].values, classifier.predict(dtest))
+    #score = log_loss(test[goal].values, classifier.predict(dtest))
     categories = classifier.predict(dtest)
 
     return categories, YDict
