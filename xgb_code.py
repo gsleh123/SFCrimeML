@@ -1,35 +1,43 @@
+from sklearn.decomposition import PCA
+
 import xgboost as xgb
 import pandas as pd
 import parse
 
 def boost():
     X, Y, YDict, test_X = parse.mario()
-    print(len(YDict))
     trainNP_X = X.values
     trainNP_Y = Y.values
     testNP_X = test_X.values
+
+    #pca = PCA(n_components=3)
+    #pca.fit(X)
+
+    #train_pca_df = pca.transform(X)
+    #test_pca_df = pca.transform(test_X)
 
     dtrain = xgb.DMatrix(trainNP_X, label=trainNP_Y)
     dtest = xgb.DMatrix(testNP_X)
 
     #evallist = [(dtest, 'eval'), (dtrain, 'train')]
-    num_round = 50
-    params = {'max_depth':12, 'min_child_weight':1, 'subsample':1, 'colsample_bytree':0.9, 'eta':0.1, 'silent':1, 'objective':'multi:softmax', 'num_class':len(YDict)}
-    #classifier = xgb.train(params, dtrain, num_round)
+    num_round = 250
+    #params = {'max_depth':12, 'min_child_weight':1, 'subsample':1, 'colsample_bytree':0.9, 'eta':0.1, 'silent':0, 'objective':'multi:softmax', 'num_class':len(YDict), 'eval_metric':'mlogloss'}
+
+    params = {'max_depth':8, 'eta':0.05, 'silent':1, 'objective':'multi:softmax', 'num_class':39, 'eval_metric':'mlogloss',
+              'min_child_weight':3, 'subsample':0.6,'colsample_bytree':0.6, 'nthread':4}    
+
+    classifier = xgb.train(params, dtrain, num_round)
     
-    sample(dtrain, params)
+    #rounds(dtrain, params)
+
+    #sample(dtrain, params)
 
     # error 0.710194 max_dept = 12, min_child = 1
     # error 0.6966112 max_depth = 20, min_child = 1
 
     #cv(dtrain, params)
-    #cv = xgb.cv(param
-    #            , dtrain
-    #            , num_boost_round = num_round
-    #            , nfold = 4
-    #            , early_stopping_rounds = 10)
-    #print(cv)
 
+    score = log_loss(test[goal].values, classifier.predict(dtest))
     categories = classifier.predict(dtest)
 
     return categories, YDict
@@ -43,7 +51,7 @@ def sample(dtrain, params, num_round = 50):
         for colsample in [i/10. for i in range(7,11)]
     ]
 
-    min_merror = float("Inf")
+    min_mlogloss = float("Inf")
     best_params = None
 
     # We start by the largest values and go down to the smallest
@@ -65,23 +73,36 @@ def sample(dtrain, params, num_round = 50):
         )
 
         # Update best score
-        mean_merror = cv_results['test-merror-mean'].min()
-        boost_rounds = cv_results['test-merror-mean'].argmin()
-        print("\tmean error {} for {} rounds".format(mean_merror, boost_rounds))
-        if mean_merror < min_merror:
-            min_merror = mean_merror
+        mean_mlogloss = cv_results['test-mlogloss-mean'].min()
+        boost_rounds = cv_results['test-mlogloss-mean'].argmin()
+        print("\tmean error {} for {} rounds".format(mean_mlogloss, boost_rounds))
+        if mean_mlogloss < min_mlogloss:
+            min_mlogloss = mean_mlogloss
             best_params = (subsample,colsample)
 
-    print("Best params: {}, {}, MAE: {}".format(best_params[0], best_params[1], min_merror))
+    print("Best params: {}, {}, MAE: {}".format(best_params[0], best_params[1], min_mlogloss))
 
-def cv(dtrain, params, num_round = 50):
+def rounds(dtrain, params):
+    model = xgb.train(
+        params,
+        dtrain,
+        num_boost_round=999,
+        evals=[(dtrain, "Train")],
+        early_stopping_rounds=10
+    )
+
+    print("Best MAE: {:.2f} with {} rounds".format(
+                 model.best_score,
+                 model.best_iteration+1))
+
+def cv(dtrain, params):
     gridsearch_params = [
         (max_depth, min_child_weight)
-        for max_depth in range(20,25)
-        for min_child_weight in range(1,3)
+        for max_depth in range(6,15,2)
+        for min_child_weight in range(1,7,2)
     ]
 
-    min_merror = float("Inf")
+    min_mlogloss = float("Inf")
     best_params = None
 
     for max_depth, min_child_weight in gridsearch_params:
@@ -95,19 +116,19 @@ def cv(dtrain, params, num_round = 50):
         cv_results = xgb.cv(
             params,
             dtrain,
-            num_boost_round=num_round,
+            num_boost_round=999,
             seed=42,
             nfold=5,
             early_stopping_rounds=10
         )
 
         # Update best MAE
-        mean_merror = cv_results['test-merror-mean'].min()
-        boost_rounds = cv_results['test-merror-mean'].argmin()
-        print("\tMAE {} for {} rounds".format(mean_merror, boost_rounds))
+        mean_mlogloss = cv_results['test-mlogloss-mean'].min()
+        boost_rounds = cv_results['test-mlogloss-mean'].argmin()
+        print("\tMAE {} for {} rounds".format(mean_mlogloss, boost_rounds))
 
-        if mean_merror < min_merror:
-            min_merror = mean_merror
+        if mean_mlogloss < min_mlogloss:
+            min_mlogloss = mean_mlogloss
             best_params = (max_depth, min_child_weight)
 
-    print("Best params: {}, {}, MAE: {}".format(best_params[0], best_params[1], min_merror))
+    print("Best params: {}, {}, MAE: {}".format(best_params[0], best_params[1], min_mlogloss))
