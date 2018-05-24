@@ -7,6 +7,6 @@ def nearestNeighbors():
     neigh = KNeighborsClassifier(n_neighbors=100)
     neigh.fit(X, Y)
  
-    categories = neigh.predict(test_X)
+    categories = neigh.predict_proba(test_X)
     
     return categories, YDict
