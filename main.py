@@ -36,7 +36,7 @@ def xgbSubmit(categories, YDict):
 
         resultWriter = csv.writer(csvfile)
         resultWriter.writerow(listofcategories)
-        resultWriter.writerow(categories)
+        resultWriter.writerows(categories)
 
 
 #categories, YDict = lr.logReg()

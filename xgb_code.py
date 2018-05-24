@@ -1,6 +1,7 @@
 from sklearn.decomposition import PCA
 
 import xgboost as xgb
+import numpy as np
 import pandas as pd
 import parse
 
@@ -20,7 +21,7 @@ def boost():
     dtest = xgb.DMatrix(testNP_X)
 
     #evallist = [(dtest, 'eval'), (dtrain, 'train')]
-    num_round = 250
+    num_round = 10
     #params = {'max_depth':12, 'min_child_weight':1, 'subsample':1, 'colsample_bytree':0.9, 'eta':0.1, 'silent':0, 'objective':'multi:softmax', 'num_class':len(YDict), 'eval_metric':'mlogloss'}
 
     params = {'max_depth':8, 'eta':0.05, 'silent':1, 'objective':'multi:softprob', 'num_class':39, 'eval_metric':'mlogloss',
@@ -39,9 +40,13 @@ def boost():
 
     #score = log_loss(test[goal].values, classifier.predict(dtest))
     categories = classifier.predict(dtest)
+    categories = categories.tolist()
     #numrows = len(categories)
     #numcols = len(categories[0])
     #print(numrows, numcols)
+
+    for i in range(0,len(categories)):
+        categories[i].insert(0,i)
 
     return categories, YDict
 

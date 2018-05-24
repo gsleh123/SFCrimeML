@@ -38,8 +38,8 @@ def mario():
         testDF[testDataLabels[j]] = testDF[testDataLabels[j]].astype('category')
         testDF[testDataLabels[j]] = testDF[testDataLabels[j]].cat.codes
 
-    X = trainDF.drop([trainDataLabels[0], trainDataLabels[1], trainDataLabels[2], trainDataLabels[5], trainDataLabels[6], trainDataLabels[7], trainDataLabels[8]], axis=1)
+    X = trainDF.drop([trainDataLabels[0], trainDataLabels[1], trainDataLabels[2], trainDataLabels[5], trainDataLabels[6]], axis=1)
     Y = trainDF[trainDataLabels[1]]
-    test_X = testDF.drop([testDataLabels[0], testDataLabels[1], testDataLabels[4], testDataLabels[5], testDataLabels[6]], axis=1)
+    test_X = testDF.drop([testDataLabels[0], testDataLabels[1], testDataLabels[4]], axis=1)
 
     return X, Y, YDict, test_X
