@@ -7,6 +7,10 @@ def logReg():
     logReg = LogisticRegression(multi_class='multinomial', solver='lbfgs')
     logReg.fit(X, Y)
 
-    categories = logReg.predict(test_X)
+    categories = logReg.predict_proba(test_X)
+    categories = categories.tolist()
+
+    for i in range(0,len(categories)):
+        categories[i].insert(0,i)
     
     return categories, YDict

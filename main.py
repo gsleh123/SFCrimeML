@@ -2,6 +2,7 @@ import csv
 import logistic_regression as lr
 import xgb_code
 import neighbors
+import forest
 
 def submit(categories, YDict):
     with open('submission.csv', 'w') as csvfile:
@@ -40,8 +41,10 @@ def xgbSubmit(categories, YDict):
 
 
 #categories, YDict = lr.logReg()
-#categories, YDict = xgb_code.boost()
-categories, YDict = neighbors.nearestNeighbors()
+categories, YDict = xgb_code.boost()
+#categories, YDict = neighbors.nearestNeighbors()
+#categories, YDict = forest.randomForest()
+print ("XGB with PCA")
 
 #submit(categories, YDict)
 xgbSubmit(categories, YDict)		

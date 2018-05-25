@@ -11,14 +11,17 @@ def boost():
     trainNP_Y = Y.values
     testNP_X = test_X.values
 
-    #pca = PCA(n_components=3)
-    #pca.fit(X)
+    pca = PCA(n_components=3)
+    pca.fit(X)
 
-    #train_pca_df = pca.transform(X)
-    #test_pca_df = pca.transform(test_X)
+    X_pca = pca.transform(X)
+    test_X_pca = pca.transform(test_X)
 
-    dtrain = xgb.DMatrix(trainNP_X, label=trainNP_Y)
-    dtest = xgb.DMatrix(testNP_X)
+    dtrain = xgb.DMatrix(X_pca, label=trainNP_Y)
+    dtest = xgb.DMatrix(test_X_pca)
+
+    #dtrain = xgb.DMatrix(trainNP_X, label=trainNP_Y)
+    #dtest = xgb.DMatrix(testNP_X)
 
     #evallist = [(dtest, 'eval'), (dtrain, 'train')]
     num_round = 250
@@ -38,12 +41,8 @@ def boost():
 
     #cv(dtrain, params)
 
-    #score = log_loss(test[goal].values, classifier.predict(dtest))
     categories = classifier.predict(dtest)
     categories = categories.tolist()
-    #numrows = len(categories)
-    #numcols = len(categories[0])
-    #print(numrows, numcols)
 
     for i in range(0,len(categories)):
         categories[i].insert(0,i)
