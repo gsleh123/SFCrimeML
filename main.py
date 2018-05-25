@@ -40,8 +40,8 @@ def xgbSubmit(categories, YDict):
 
 
 #categories, YDict = lr.logReg()
-categories, YDict = xgb_code.boost()
-#categories, YDict = neighbors.nearestNeighbors()
+#categories, YDict = xgb_code.boost()
+categories, YDict = neighbors.nearestNeighbors()
 
 #submit(categories, YDict)
 xgbSubmit(categories, YDict)		
