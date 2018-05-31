@@ -27,8 +27,7 @@ def boost():
     num_round = 250
     #params = {'max_depth':12, 'min_child_weight':1, 'subsample':1, 'colsample_bytree':0.9, 'eta':0.1, 'silent':0, 'objective':'multi:softmax', 'num_class':len(YDict), 'eval_metric':'mlogloss'}
 
-    params = {'max_depth':8, 'eta':0.05, 'silent':1, 'objective':'multi:softprob', 'num_class':39, 'eval_metric':'mlogloss',
-              'min_child_weight':3, 'subsample':0.6,'colsample_bytree':0.6, 'nthread':4}    
+    params = {'booster':'dart', 'rate_drop':0.1, 'skip_drop':0.5, 'max_depth':8, 'eta':0.05, 'silent':1, 'objective':'multi:softprob', 'num_class':39, 'eval_metric':'mlogloss', 'min_child_weight':3, 'subsample':0.6,'colsample_bytree':0.6, 'nthread':4}    
 
     classifier = xgb.train(params, dtrain, num_round)
     

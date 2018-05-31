@@ -1,18 +1,19 @@
 import pandas as pd
 import datetime as dt
+from sklearn.decomposition import PCA
 
 def seasons(month):
     summer=0
     fall=0
     winter=0
     spring=0
-    if (month in [5, 6, 7]):
+    if (month in [6, 7, 8]):
         summer=1
-    if (month in [8, 9, 10]):
+    if (month in [9, 10, 11]):
         fall=1
-    if (month in [11, 0, 1]):
+    if (month in [12, 1, 2]):
         winter=1
-    if (month in [2, 3, 4]):
+    if (month in [3, 4, 5]):
         spring=1
     return summer, fall, winter, spring
 
@@ -33,6 +34,7 @@ def mario():
     testDF['Hour'] = testDF[testDataLabels[1]].apply(lambda x: dt.datetime.strptime(x, '%Y-%m-%d %H:%M:%S').hour)
     testDF['Month'] = testDF[testDataLabels[1]].apply(lambda x: dt.datetime.strptime(x, '%Y-%m-%d %H:%M:%S').month)
 
+
     trainDF['StreetNo'] = trainDF[trainDataLabels[6]].apply(lambda x: int(x.rsplit(' ')[0]) if x.rsplit(' ')[0].isdigit() else 0)
     trainDF['Block'] = trainDF[trainDataLabels[6]].apply(lambda x: 1 if x.rsplit(' ')[1]=='Block' else 0)
     trainDF['Intersection'] = trainDF[trainDataLabels[6]].apply(lambda x: 0 if x.find("/") == -1 else 1)
@@ -42,6 +44,23 @@ def mario():
     testDF['Block'] = testDF[testDataLabels[4]].apply(lambda x: 1 if x.rsplit(' ')[1]=='Block' else 0)
     testDF['Intersection'] = testDF[testDataLabels[4]].apply(lambda x: 0 if x.find("/") == -1 else 1)
     #testDF["Summer"], testDF["Fall"], testDF["Winter"], testDF["Spring"]=zip(*testDF['Month'].apply(seasons))
+
+
+    # PCA on X and Y coordinates
+    #pca = PCA(n_components=1, svd_solver='full')
+    #x_coord_reshape = trainDF[trainDataLabels[7]].reshape(-1, 1)
+    #y_coord_reshape = trainDF[trainDataLabels[8]].reshape(-1, 1)
+
+    #pca.fit(x_coord_reshape)
+    #pca.fit(y_coord_reshape)
+    #x_coordinates_pca = pca.transform(x_coord_reshape)
+    #y_coordinates_pca = pca.transform(y_coord_reshape)
+
+    #trainDF[trainDataLabels[7]] = x_coordinates_pca
+    #trainDF[trainDataLabels[8]] = y_coordinates_pca
+
+    #print "Passed"
+
 
     # Assigning numeric values to different categories of crime
     trainDF[trainDataLabels[1]] = trainDF[trainDataLabels[1]].astype('category')
