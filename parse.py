@@ -20,8 +20,11 @@ def mario():
 
     trainDF['StreetNo'] = trainDF[trainDataLabels[6]].apply(lambda x: int(x.rsplit(' ')[0]) if x.rsplit(' ')[0].isdigit() else 0)
     trainDF['Block'] = trainDF[trainDataLabels[6]].apply(lambda x: 1 if x.rsplit(' ')[1]=='Block' else 0)
+    trainDF['Intersection'] = trainDF[trainDataLabels[6]].apply(lambda x: 0 if x.find("/") == -1 else 1)
+
     testDF['StreetNo'] = testDF[testDataLabels[4]].apply(lambda x: int(x.rsplit(' ')[0]) if x.rsplit(' ')[0].isdigit() else 0)
     testDF['Block'] = testDF[testDataLabels[4]].apply(lambda x: 1 if x.rsplit(' ')[1]=='Block' else 0)
+    testDF['Intersection'] = testDF[testDataLabels[4]].apply(lambda x: 0 if x.find("/") == -1 else 1)
 
 
     # Assigning numeric values to different categories of crime
