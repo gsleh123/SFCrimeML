@@ -47,19 +47,29 @@ def mario():
 
 
     # PCA on X and Y coordinates
-    #pca = PCA(n_components=1, svd_solver='full')
-    #x_coord_reshape = trainDF[trainDataLabels[7]].reshape(-1, 1)
-    #y_coord_reshape = trainDF[trainDataLabels[8]].reshape(-1, 1)
+    XY_DF = pd.DataFrame({'X' : []})
+    XY_DF['X'] = trainDF[trainDataLabels[7]]
+    XY_DF['Y'] = trainDF[trainDataLabels[8]]
 
-    #pca.fit(x_coord_reshape)
-    #pca.fit(y_coord_reshape)
-    #x_coordinates_pca = pca.transform(x_coord_reshape)
-    #y_coordinates_pca = pca.transform(y_coord_reshape)
+    pca = PCA(n_components=1, svd_solver='full')
+    pca.fit(XY_DF)
+    XY_pca = pca.transform(XY_DF)
 
-    #trainDF[trainDataLabels[7]] = x_coordinates_pca
-    #trainDF[trainDataLabels[8]] = y_coordinates_pca
+    trainDF['XY_pca'] = XY_pca
+    print trainDF['XY_pca'].shape
 
-    #print "Passed"
+    XY_DF = pd.DataFrame({'X' : []})
+    XY_DF['X'] = testDF[testDataLabels[5]]
+    XY_DF['Y'] = testDF[testDataLabels[6]]
+
+    pca = PCA(n_components=1, svd_solver='full')
+    pca.fit(XY_DF)
+    XY_pca = pca.transform(XY_DF)
+    testDF['XY_pca'] = XY_pca
+    print testDF['XY_pca'].shape
+
+
+    print "Passed"
 
 
     # Assigning numeric values to different categories of crime
@@ -76,8 +86,8 @@ def mario():
         testDF[testDataLabels[j]] = testDF[testDataLabels[j]].astype('category')
         testDF[testDataLabels[j]] = testDF[testDataLabels[j]].cat.codes
 
-    X = trainDF.drop([trainDataLabels[0], trainDataLabels[1], trainDataLabels[2], trainDataLabels[5], trainDataLabels[6]], axis=1)
+    X = trainDF.drop([trainDataLabels[0], trainDataLabels[1], trainDataLabels[2], trainDataLabels[5], trainDataLabels[6], trainDataLabels[7], trainDataLabels[8]], axis=1)
     Y = trainDF[trainDataLabels[1]]
-    test_X = testDF.drop([testDataLabels[0], testDataLabels[1], testDataLabels[4]], axis=1)
+    test_X = testDF.drop([testDataLabels[0], testDataLabels[1], testDataLabels[4], testDataLabels[5], testDataLabels[6]], axis=1)
 
     return X, Y, YDict, test_X
