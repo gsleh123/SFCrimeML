@@ -3,6 +3,7 @@ import logistic_regression as lr
 import xgb_code
 import neighbors
 import forest
+import neural_network as nn
 
 def submit(categories, YDict):
     with open('submission.csv', 'w') as csvfile:
@@ -41,10 +42,10 @@ def xgbSubmit(categories, YDict):
 
 
 #categories, YDict = lr.logReg()
-categories, YDict = xgb_code.boost()
+#categories, YDict = xgb_code.boost()
 #categories, YDict = neighbors.nearestNeighbors()
 #categories, YDict = forest.randomForest()
-print ("XGB")
+nn.kerasNN()
 
 #submit(categories, YDict)
 xgbSubmit(categories, YDict)		
