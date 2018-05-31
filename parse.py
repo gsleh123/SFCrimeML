@@ -1,6 +1,21 @@
 import pandas as pd
 import datetime as dt
 
+def seasons(month):
+    summer=0
+    fall=0
+    winter=0
+    spring=0
+    if (month in [5, 6, 7]):
+        summer=1
+    if (month in [8, 9, 10]):
+        fall=1
+    if (month in [11, 0, 1]):
+        winter=1
+    if (month in [2, 3, 4]):
+        spring=1
+    return summer, fall, winter, spring
+
 def mario():
 
     trainData = pd.read_csv('train.csv')
@@ -21,11 +36,12 @@ def mario():
     trainDF['StreetNo'] = trainDF[trainDataLabels[6]].apply(lambda x: int(x.rsplit(' ')[0]) if x.rsplit(' ')[0].isdigit() else 0)
     trainDF['Block'] = trainDF[trainDataLabels[6]].apply(lambda x: 1 if x.rsplit(' ')[1]=='Block' else 0)
     trainDF['Intersection'] = trainDF[trainDataLabels[6]].apply(lambda x: 0 if x.find("/") == -1 else 1)
+    #trainDF["Summer"], trainDF["Fall"], trainDF["Winter"], trainDF["Spring"]=zip(*trainDF['Month'].apply(seasons))
 
     testDF['StreetNo'] = testDF[testDataLabels[4]].apply(lambda x: int(x.rsplit(' ')[0]) if x.rsplit(' ')[0].isdigit() else 0)
     testDF['Block'] = testDF[testDataLabels[4]].apply(lambda x: 1 if x.rsplit(' ')[1]=='Block' else 0)
     testDF['Intersection'] = testDF[testDataLabels[4]].apply(lambda x: 0 if x.find("/") == -1 else 1)
-
+    #testDF["Summer"], testDF["Fall"], testDF["Winter"], testDF["Spring"]=zip(*testDF['Month'].apply(seasons))
 
     # Assigning numeric values to different categories of crime
     trainDF[trainDataLabels[1]] = trainDF[trainDataLabels[1]].astype('category')

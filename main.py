@@ -44,7 +44,7 @@ def xgbSubmit(categories, YDict):
 categories, YDict = xgb_code.boost()
 #categories, YDict = neighbors.nearestNeighbors()
 #categories, YDict = forest.randomForest()
-print ("XGB with PCA")
+print ("XGB")
 
 #submit(categories, YDict)
 xgbSubmit(categories, YDict)		
