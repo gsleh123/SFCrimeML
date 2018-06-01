@@ -30,10 +30,11 @@ def mario():
 
     trainDF['Hour'] = trainDF[trainDataLabels[0]].apply(lambda x: dt.datetime.strptime(x, '%Y-%m-%d %H:%M:%S').hour)
     trainDF['Month'] = trainDF[trainDataLabels[0]].apply(lambda x: dt.datetime.strptime(x, '%Y-%m-%d %H:%M:%S').month)
+    trainDF['Minute'] = trainDF[trainDataLabels[0]].apply(lambda x: dt.datetime.strptime(x, '%Y-%m-%d %H:%M:%S').minute)
 
     testDF['Hour'] = testDF[testDataLabels[1]].apply(lambda x: dt.datetime.strptime(x, '%Y-%m-%d %H:%M:%S').hour)
     testDF['Month'] = testDF[testDataLabels[1]].apply(lambda x: dt.datetime.strptime(x, '%Y-%m-%d %H:%M:%S').month)
-
+    testDF['Minute'] = testDF[testDataLabels[1]].apply(lambda x: dt.datetime.strptime(x, '%Y-%m-%d %H:%M:%S').minute)
 
     trainDF['StreetNo'] = trainDF[trainDataLabels[6]].apply(lambda x: int(x.rsplit(' ')[0]) if x.rsplit(' ')[0].isdigit() else 0)
     trainDF['Block'] = trainDF[trainDataLabels[6]].apply(lambda x: 1 if x.rsplit(' ')[1]=='Block' else 0)
@@ -47,25 +48,25 @@ def mario():
 
 
     # PCA on X and Y coordinates
-    XY_DF = pd.DataFrame({'X' : []})
-    XY_DF['X'] = trainDF[trainDataLabels[7]]
-    XY_DF['Y'] = trainDF[trainDataLabels[8]]
+    #XY_DF = pd.DataFrame({'X' : []})
+    #XY_DF['X'] = trainDF[trainDataLabels[7]]
+    #XY_DF['Y'] = trainDF[trainDataLabels[8]]
 
-    pca = PCA(n_components=1, svd_solver='full')
-    pca.fit(XY_DF)
-    XY_pca = pca.transform(XY_DF)
+    #pca = PCA(n_components=1, svd_solver='full')
+    #pca.fit(XY_DF)
+    #XY_pca = pca.transform(XY_DF)
 
-    trainDF['XY_pca'] = XY_pca
+    #trainDF['XY_pca'] = XY_pca
     #print trainDF['XY_pca'].shape
 
-    XY_DF = pd.DataFrame({'X' : []})
-    XY_DF['X'] = testDF[testDataLabels[5]]
-    XY_DF['Y'] = testDF[testDataLabels[6]]
+    #XY_DF = pd.DataFrame({'X' : []})
+    #XY_DF['X'] = testDF[testDataLabels[5]]
+    #XY_DF['Y'] = testDF[testDataLabels[6]]
 
-    pca = PCA(n_components=1, svd_solver='full')
-    pca.fit(XY_DF)
-    XY_pca = pca.transform(XY_DF)
-    testDF['XY_pca'] = XY_pca
+    #pca = PCA(n_components=1, svd_solver='full')
+    #pca.fit(XY_DF)
+    #XY_pca = pca.transform(XY_DF)
+    #testDF['XY_pca'] = XY_pca
     #print testDF['XY_pca'].shape
     #print "Passed"
 
@@ -84,9 +85,9 @@ def mario():
         testDF[testDataLabels[j]] = testDF[testDataLabels[j]].astype('category')
         testDF[testDataLabels[j]] = testDF[testDataLabels[j]].cat.codes
 
-    X = trainDF.drop([trainDataLabels[0], trainDataLabels[1], trainDataLabels[2], trainDataLabels[5], trainDataLabels[6], trainDataLabels[7], trainDataLabels[8]], axis=1)
+    X = trainDF.drop([trainDataLabels[0], trainDataLabels[1], trainDataLabels[2], trainDataLabels[5], trainDataLabels[6]], axis=1)
     Y = trainDF[trainDataLabels[1]]
-    test_X = testDF.drop([testDataLabels[0], testDataLabels[1], testDataLabels[4], testDataLabels[5], testDataLabels[6]], axis=1)
+    test_X = testDF.drop([testDataLabels[0], testDataLabels[1], testDataLabels[4]], axis=1)
 
     #print X
 

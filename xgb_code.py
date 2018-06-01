@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import parse
 
+
 def boost():
     X, Y, YDict, test_X = parse.mario()
     trainNP_X = X.values
@@ -46,6 +47,21 @@ def boost():
 
     for i in range(0,len(categories)):
         categories[i].insert(0,i)
+
+    # feature importance
+    feat_dict = classifier.get_score(importance_type='gain')
+    print (feat_dict)
+
+    sum_values = 0
+    for key, value in feat_dict.items():
+        sum_values += float(value)
+
+    avg_dict = {}
+
+    for key, value in feat_dict.items():  
+        avg_dict[key] = float(value)/sum_values
+
+    print (avg_dict)
 
     return categories, YDict
 
