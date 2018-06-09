@@ -5,6 +5,21 @@ import numpy as np
 import pandas as pd
 import parse
 
+def feat_importance():
+    # feature importance
+    feat_dict = classifier.get_score(importance_type='gain')
+    print (feat_dict)
+
+    sum_values = 0
+    for key, value in feat_dict.items():
+        sum_values += float(value)
+
+    avg_dict = {}
+
+    for key, value in feat_dict.items():  
+        avg_dict[key] = float(value)/sum_values
+
+    print (avg_dict)
 
 def boost():
     X, Y, YDict, test_X = parse.mario()
@@ -31,9 +46,9 @@ def boost():
     params = {'max_depth':8, 'eta':0.05, 'silent':1, 'objective':'multi:softprob', 'num_class':39, 'eval_metric':'mlogloss',
               'min_child_weight':3, 'subsample':0.6,'colsample_bytree':0.6, 'nthread':4}    
 
-    classifier = xgb.train(params, dtrain, num_round)
+    #classifier = xgb.train(params, dtrain, num_round)
     
-    #rounds(dtrain, params)
+    rounds(dtrain, params)
 
     #sample(dtrain, params)
 
@@ -47,21 +62,6 @@ def boost():
 
     for i in range(0,len(categories)):
         categories[i].insert(0,i)
-
-    # feature importance
-    feat_dict = classifier.get_score(importance_type='gain')
-    print (feat_dict)
-
-    sum_values = 0
-    for key, value in feat_dict.items():
-        sum_values += float(value)
-
-    avg_dict = {}
-
-    for key, value in feat_dict.items():  
-        avg_dict[key] = float(value)/sum_values
-
-    print (avg_dict)
 
     return categories, YDict
 

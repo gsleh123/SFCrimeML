@@ -27,7 +27,7 @@ def submit(categories, YDict):
             resultWriter.writerow(row)
 
 def xgbSubmit(categories, YDict):
-    with open('submission_feat.csv', 'w') as csvfile:
+    with open('submission.csv', 'w') as csvfile:
         listofcategories = ['Id', 'ARSON', 'ASSAULT', 'BAD CHECKS', 'BRIBERY', 'BURGLARY', 'DISORDERLY CONDUCT',
             'DRIVING UNDER THE INFLUENCE', 'DRUG/NARCOTIC', 'DRUNKENNESS', 'EMBEZZLEMENT', 'EXTORTION',
             'FAMILY OFFENSES', 'FORGERY/COUNTERFEITING', 'FRAUD', 'GAMBLING', 'KIDNAPPING', 'LARCENY/THEFT', 
