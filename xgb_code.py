@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import parse
 
-def feat_importance():
+def feat_importance(classifier):
     # feature importance
     feat_dict = classifier.get_score(importance_type='gain')
     print (feat_dict)
@@ -20,6 +20,11 @@ def feat_importance():
         avg_dict[key] = float(value)/sum_values
 
     print (avg_dict)
+
+    avg_sum_values = 0
+    for key, value in avg_dict.items():
+        avg_sum_values += float(value)
+    print ("Average sum of values", avg_sum_values)
 
 def boost():
     X, Y, YDict, test_X = parse.mario()
@@ -46,9 +51,9 @@ def boost():
     params = {'max_depth':8, 'eta':0.05, 'silent':1, 'objective':'multi:softprob', 'num_class':39, 'eval_metric':'mlogloss',
               'min_child_weight':3, 'subsample':0.6,'colsample_bytree':0.6, 'nthread':4}    
 
-    #classifier = xgb.train(params, dtrain, num_round)
+    classifier = xgb.train(params, dtrain, num_round)
     
-    rounds(dtrain, params)
+    #rounds(dtrain, params)
 
     #sample(dtrain, params)
 
@@ -62,6 +67,8 @@ def boost():
 
     for i in range(0,len(categories)):
         categories[i].insert(0,i)
+
+    feat_importance(classifier)
 
     return categories, YDict
 

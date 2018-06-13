@@ -116,6 +116,5 @@ def mario():
     Y = trainDF[trainDataLabels[1]]
     test_X = testDF.drop([testDataLabels[0], testDataLabels[1], testDataLabels[4], testDataLabels[5], testDataLabels[6]], axis=1)
 
-    #print X
 
     return X, Y, YDict, test_X
